@@ -14,12 +14,12 @@ import com.amazonaws.services.s3.model.Bucket;
  */
 public class ListBuckets {
 
-  public static void main(String[] args) {
-    final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
-        .withRegion(Regions.US_EAST_1)
-        .build();
+  private static final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+      .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
+      .withRegion(Regions.US_EAST_1)
+      .build();
 
+  public static void main(String[] args) {
     System.out.println("Your Amazon S3 buckets are:");
 
     for (Bucket b : s3.listBuckets()) {

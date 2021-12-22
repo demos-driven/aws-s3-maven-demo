@@ -14,19 +14,19 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 public class ListObjects {
 
-  private static final String BUCKET_NAME = "dip.doc-classification.indico.pdf-normal";
+  static final String BUCKET_NAME = "dip.doc-classification.indico.pdf-normal";
+
+  static final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+      .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
+      .withRegion(Regions.US_EAST_1)
+      .build();
 
   public static void main(String[] args) {
-    final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
-        .withRegion(Regions.US_EAST_1)
-        .build();
+    ListObjectsV2Result result = s3.listObjectsV2(BUCKET_NAME);
+
+    List<S3ObjectSummary> objects = result.getObjectSummaries();
 
     System.out.format("Objects in S3 bucket %s:\n", BUCKET_NAME);
-
-    ListObjectsV2Result result = s3.listObjectsV2(BUCKET_NAME);
-    
-    List<S3ObjectSummary> objects = result.getObjectSummaries();
 
     for (S3ObjectSummary os : objects) {
       System.out.println("* " + os.getKey() + " " + os.getSize());
